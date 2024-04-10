@@ -85,22 +85,26 @@ function calculate() {
 
 
     console.log(expression);
+    //on verifie que expression n est pas uniquement un nombre
+    // let isNumber = /^\d+$/.test(expression);
+
 
     //on affiche le resultat
+    console.log(isNumber);
+    //on affiche le resultat
     try {
-        let result = eval(expression);
-        document.getElementById('display').value = result;
+        if (expression != '' && !isNumber) {
 
-        //on va stocker l historique des calcules dans le local storage
-        let history = JSON.parse(localStorage.getItem('history')) || [];
-        history.push({ calcul: expression, result: result });
-        localStorage.setItem('history', JSON.stringify(history));
-        displayHistory();
-                // fonction pour supprimer tous les elements de l'historique
-
-                
-                
-
+            let result = eval(expression);
+            if (result != undefined && result != Infinity && result != NaN && result != Infinity) {
+            }
+            document.getElementById('display').value = result;
+            //on va stocker l historique des calcules dans le local storage
+            let history = JSON.parse(localStorage.getItem('history')) || [];
+            history.push({ calcul: expression, result: result });
+            localStorage.setItem('history', JSON.stringify(history));
+            displayHistory();
+        }
     } catch (error) {
         document.getElementById('display').value = 'Erreur';
     }
@@ -135,6 +139,7 @@ function displayHistory() {
             let tdDelete = document.createElement('td');
             let button = document.createElement('button');
             button.textContent = '🗑';
+            tdDelete.style.cursor = 'pointer';
             button.addEventListener('click', () => {
                 let index = history.indexOf(element);
                 history.splice(index, 1);
